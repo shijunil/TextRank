@@ -131,7 +131,16 @@ def extractSentences(text):
 
     #most important sentences in ascending order of importance
     sentences = sorted(calculated_page_rank, key=calculated_page_rank.get, reverse=True)
-
+    
+    # view the graph
+    import pylab
+    pylab.figure(1)
+    nx.draw(buildGraph(sentenceTokens), nx.spring_layout(buildGraph(sentenceTokens)), with_labels=True)
+    edge_labels = dict([((u,v),d['weight'])
+        for u,v,d in graph.edges(data=True)])
+    nx.draw_networkx_edge_labels(buildGraph(sentenceTokens),nx.spring_layout(buildGraph(sentenceTokens)),edge_labels=edge_labels)
+    pylab.show()
+    
     #return a 100 word summary
     summary = ' '.join(sentences)
     summaryWords = summary.split()
